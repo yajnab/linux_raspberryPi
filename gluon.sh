@@ -14,7 +14,7 @@ echo $1 > VERSION
 VERSION='cat VERSION'
 $yellow
 TOOLCHAIN='../../toolchain/linaro/bin/arm-eabi'
-MODULES="./../modules"
+MODULES="./../output/modules"
 $blue
 echo " |========================================================================| "
 echo " |*************************** GLUON KERNEL *******************************| "
@@ -64,6 +64,7 @@ $cyan
 echo "Making the zImage-the real deal"
 $violet
 ARCH=arm CROSS_COMPILE=../Toolchain/linaro-4.8/bin/arm-linux-gnueabihf- make -j64 CONFIG_DEBUG_SECTION_MISMATCH=y
+rm -rf ${MODULES}/*
 ARCH=arm CROSS_COMPILE=../Toolchain/linaro-4.8/bin/arm-linux-gnueabihf- INSTALL_MOD_PATH=${MODULES} make modules_install -j64
 echo "Cleaning"
 $violet
@@ -71,6 +72,8 @@ cd ../
 cd tools_pi
 cd mkimage
 ./imagetool-uncompressed.py ../../raspberry_pi/arch/arm/boot/zImage
+cp kernel.img ../../output/
+rm kernel.img
 
 clear
 echo " |============================ F.I.N.I.S.H ! =============================|"
