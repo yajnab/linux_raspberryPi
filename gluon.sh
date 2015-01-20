@@ -63,8 +63,8 @@ clear
 $cyan
 echo "Making the zImage-the real deal"
 $violet
-ARCH=arm CROSS_COMPILE=../Toolchain/linaro-4.8/bin/arm-linux-gnueabihf- make -j64 CONFIG_DEBUG_SECTION_MISMATCH=y
-ARCH=arm CROSS_COMPILE=../Toolchain/linaro-4.8/bin/arm-linux-gnueabihf- INSTALL_MOD_PATH=${MODULES} make modules_install -j64
+time ARCH=arm CROSS_COMPILE=../Toolchain/linaro-4.8/bin/arm-linux-gnueabihf- make -j64 CONFIG_DEBUG_SECTION_MISMATCH=y
+time ARCH=arm CROSS_COMPILE=../Toolchain/linaro-4.8/bin/arm-linux-gnueabihf- INSTALL_MOD_PATH=${MODULES} make modules_install -j64
 echo "Cleaning"
 $violet
 cd ../
