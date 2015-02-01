@@ -39,15 +39,11 @@ echo " |======================== COMPILING GLUON KERNEL ========================
 echo " |========================================================================| "
 $normal
 
+set -e
 
-if [ -n VERSION ]; then
-echo "Release version is 0"
-echo "0" > .version
-else 
-echo "Release version is $VERSION" 
-echo $VERSION > .version
-rm VERSION
-fi
+export USE_CCACHE=1
+export CCACHE_NLEVELS=4
+ccache -M 5G
 
 $cyan
 echo "Cleaning"
