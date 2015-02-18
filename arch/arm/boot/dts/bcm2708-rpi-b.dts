@@ -83,8 +83,12 @@
 	pinctrl-0 = <&i2s_pins>;
 };
 
-&act_led {
-	gpios = <&gpio 16 1>;
+&leds {
+	act_led: act {
+		label = "led0";
+		linux,default-trigger = "mmc0";
+		gpios = <&gpio 16 1>;
+	};
 };
 
 / {
@@ -93,6 +97,8 @@
 		spi = <&spi0>,"status";
 		i2c0 = <&i2c0>,"status";
 		i2c1 = <&i2c1>,"status";
+		i2c0_baudrate = <&i2c0>,"clock-frequency:0";
+		i2c1_baudrate = <&i2c1>,"clock-frequency:0";
 
 		act_led_gpio = <&act_led>,"gpios:4";
 		act_led_activelow = <&act_led>,"gpios:8";
