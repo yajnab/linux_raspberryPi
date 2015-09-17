@@ -19,6 +19,7 @@ cd ../
 rm -rf output
 mkdir output
 mkdir output/boot
+mkdir output/boot/overlays
 mkdir output/modules
 mkdir output/modules/lib
 cd raspberry_pi
@@ -73,7 +74,7 @@ $violet
 cd ../
 cd tools_pi
 cd mkimage
-./scripts/mkknlimg ../../raspberry_pi/arch/arm/boot/zImage ../../output/boot/kernel.img
+./mkknlimg ../../raspberry_pi/arch/arm/boot/zImage ../../output/boot/kernel.img
 cd ../../
 cp raspberry_pi/arch/arm/boot/dts/*.dtb output/boot
 cp raspberry_pi/arch/arm/boot/dts/overlays/*.dtb* output/boot/overlays/
