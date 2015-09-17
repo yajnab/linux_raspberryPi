@@ -13,8 +13,15 @@ KERNEL_BUILD="Gluon_Kernel_Raspberry-`date '+%Y-%m-%d---%H-%M'`"
 echo $1 > VERSION	
 VERSION='cat VERSION'
 $yellow
-TOOLCHAIN='../../toolchain/linaro/bin/arm-eabi'
+TOOLCHAIN='../../../toolchain/linaro/bin/arm-eabi'
 MODULES="./../modules"
+cd ../
+rm -rf output
+mkdir output
+mkdir output/boot
+mkdir output/modules
+mkdir output/modules/lib
+cd raspberry_pi
 $blue
 echo " |========================================================================| "
 echo " |*************************** GLUON KERNEL *******************************| "
@@ -53,21 +60,24 @@ make mrproper
 $cyan
 echo " Making config"
 $violet
-ARCH=arm CROSS_COMPILE=../../toolchain/linaro/bin/arm-eabi- make bcmrpi_gluon_defconfig
+ARCH=arm CROSS_COMPILE=../../../toolchain/arm-eabi-4.9/bin/arm-eabi- make bcmrpi_gluon_defconfig
 clear
 
 $cyan
 echo "Making the zImage-the real deal"
 $violet
-time ARCH=arm CROSS_COMPILE=../Toolchain/linaro-4.8/bin/arm-linux-gnueabihf- make -j64 CONFIG_DEBUG_SECTION_MISMATCH=y
-time ARCH=arm CROSS_COMPILE=../Toolchain/linaro-4.8/bin/arm-linux-gnueabihf- INSTALL_MOD_PATH=${MODULES} make modules_install -j64
+time ARCH=arm CROSS_COMPILE=../../../toolchain/arm-eabi-4.9/bin/arm-eabi- make -j64 CONFIG_DEBUG_SECTION_MISMATCH=y
+time ARCH=arm CROSS_COMPILE=../../../toolchain/arm-eabi-4.9/bin/arm-eabi- INSTALL_MOD_PATH=${MODULES} make modules_install -j64
 echo "Cleaning"
 $violet
 cd ../
 cd tools_pi
 cd mkimage
-./imagetool-uncompressed.py ../../raspberry_pi/arch/arm/boot/zImage
-
+./scripts/mkknlimg ../../raspberry_pi/arch/arm/boot/zImage ../../output/boot/kernel.img
+cd ../../
+cp raspberry_pi/arch/arm/boot/dts/*.dtb output/boot
+cp raspberry_pi/arch/arm/boot/dts/overlays/*.dtb* output/boot/overlays/
+cp raspberry_pi/arch/arm/boot/dts/overlays/README output/boot/overlays/
 clear
 echo " |============================ F.I.N.I.S.H ! =============================|"
 $red
@@ -94,5 +104,4 @@ echo " |****************************Linux Torvalds(torvalds)********************
 echo " |========================================================================| "
 
 $normal
-
 
